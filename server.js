@@ -1,30 +1,13 @@
-const http = require('http')
-const fs = require('fs')
-const url = require('url')
-const EventEmitter = require('events')
+var express = require('express')
 
-let App = {
-    start: (port) => {
-        let emitter = new EventEmitter()
-        let server = http.createServer((request, response) =>{
+var app = express()
+const port = 8000
 
-            response.writeHead(200, {
-                'Content-type': 'text/html; charset=utf-8'
-            })
+app.get('/', (req,res) => {
+    res.send('hello world')
+})
 
-            if (request.url === '/') {
-                emitter.emit('root', response)
-            }
-
-            response.end()
-        }).listen(port)
-
-        return emitter
-    }
-}
-
-let app = App.start(8000)
-
-app.on('root', (response) => {
-    response.write('root')
+app.listen(port, () => {
+    console.log('Listening to: '+port);
+    
 })
